@@ -14,8 +14,8 @@ public class ConsoleApplication {
 
         try (WhatISeeService service = new WhatISeeSimpleService()) {
             //service.describePicture("/home/mike/Изображения/IMG_0526.JPG");
-            //service.describePicture("/home/mike/Изображения/PPF_9204_small.JPG");
-            service.describePicture("/home/mike/Изображения/IMG_0404.JPG");
+            service.describePicture("/home/mike/Изображения/PPF_9204_small.JPG");
+            //service.describePicture("/home/mike/Изображения/IMG_0404.JPG");
             System.in.read();
         } catch (IOException e) {
             e.printStackTrace();

@@ -5,6 +5,7 @@ import com.amazonaws.services.rekognition.AmazonRekognitionClientBuilder;
 import com.amazonaws.services.rekognition.model.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jewtiejew.akka.text.Describer;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import java.util.List;
 public class Rekognizer {
 
     private AmazonRekognition rekognitionClient;
+
+    private Describer describer = new Describer(); //todo: just for test
 
     public Rekognizer() {
         rekognitionClient = AmazonRekognitionClientBuilder.defaultClient();
@@ -60,6 +63,8 @@ public class Rekognizer {
             faceDetails = result.getFaceDetails();
 
             for (FaceDetail face : faceDetails) {
+                System.out.println(describer.describeFace(face));
+                /*
                 if (request.getAttributes().contains("ALL")) {
                     AgeRange ageRange = face.getAgeRange();
                     System.out.println("The detected face is estimated to be between "
@@ -72,9 +77,10 @@ public class Rekognizer {
 
                 ObjectMapper objectMapper = new ObjectMapper();
                 System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(face));
+                */
             }
 
-        } catch(AmazonRekognitionException | JsonProcessingException e) {
+        } catch(AmazonRekognitionException e) {
             e.printStackTrace();
         }
         return faceDetails;
