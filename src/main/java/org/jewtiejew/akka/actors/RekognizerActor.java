@@ -29,15 +29,15 @@ public class RekognizerActor extends AbstractActor {
     public Receive createReceive() {
         return receiveBuilder()
                 .match(Base64ImgMessage.class, img -> {
-                    sentenseMaker.tell(new ImageAttributes(recognize(img)), getSelf());
+                    sentenseMaker.tell(recognize(img), getSelf());
                 })
                 .build();
     }
 
-    private String[] recognize(Base64ImgMessage img) {
-        rekognizer.getLabels(img.img);
-        rekognizer.getFaces(img.img);
-        rekognizer.getCelebrities(img.img);
-        return new String[] {};
+    private ImageAttributes recognize(Base64ImgMessage img) {
+        return new ImageAttributes(
+                rekognizer.getLabels(img.img),
+                rekognizer.getFaces(img.img),
+                rekognizer.getCelebrities(img.img));
     }
 }

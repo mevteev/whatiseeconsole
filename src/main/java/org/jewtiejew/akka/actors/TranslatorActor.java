@@ -3,6 +3,9 @@ package org.jewtiejew.akka.actors;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
+import org.jewtiejew.akka.amazon.Translator;
 import org.jewtiejew.akka.messages.Sentence;
 
 /**
@@ -11,6 +14,11 @@ import org.jewtiejew.akka.messages.Sentence;
 public class TranslatorActor extends AbstractActor {
 
     private ActorRef voiceMaker;
+
+    private Translator translator = new Translator();
+
+    private LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
+
 
     static public Props props(ActorRef voiceMaker) {
         return Props.create(TranslatorActor.class, () -> new TranslatorActor(voiceMaker));
@@ -30,6 +38,9 @@ public class TranslatorActor extends AbstractActor {
     }
 
     private String translate(String sentence) {
-        return "";
+        String result = translator.translate(sentence, "en", "ru");
+        log.info(result);
+
+        return result;
     }
 }

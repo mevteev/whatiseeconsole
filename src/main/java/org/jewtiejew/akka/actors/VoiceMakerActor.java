@@ -31,6 +31,6 @@ public class VoiceMakerActor extends AbstractActor {
     }
 
     private String makeVoice(String sentence) {
-        return "I see you";
+        return sentence;
     }
 }

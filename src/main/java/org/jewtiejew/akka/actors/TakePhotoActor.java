@@ -3,6 +3,8 @@ package org.jewtiejew.akka.actors;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
 import com.amazonaws.util.IOUtils;
 import org.jewtiejew.akka.messages.Base64ImgMessage;
 import org.jewtiejew.akka.messages.FileNameMsg;
@@ -19,6 +21,9 @@ import java.nio.ByteBuffer;
 public class TakePhotoActor extends AbstractActor {
 
     private ActorRef rekognizer;
+
+    private LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
+
 
     static public Props props(ActorRef rekognizer) {
         return Props.create(TakePhotoActor.class, () -> new TakePhotoActor(rekognizer));
@@ -39,6 +44,8 @@ public class TakePhotoActor extends AbstractActor {
 
     private ByteBuffer readImage(String path) {
         ByteBuffer imageBytes = null;
+
+        log.info(path);
 
         try(InputStream inputStream = new FileInputStream(new File(path))) {
             imageBytes = ByteBuffer.wrap(IOUtils.toByteArray(inputStream));
